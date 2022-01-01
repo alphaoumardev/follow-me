@@ -17,10 +17,12 @@ const Pin = ({ pin }) => {
 
     const user = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear();
 
-    const deletePin = (id) => {
+    const deletePin = (id) =>
+    {
         client
             .delete(id)
-            .then(() => {
+            .then(() =>
+            {
                 window.location.reload();
             });
     };
@@ -29,17 +31,21 @@ const Pin = ({ pin }) => {
 
     alreadySaved = alreadySaved?.length > 0 ? alreadySaved : [];
 
-    const savePin = (id) => {
-        if (alreadySaved?.length === 0) {
+    const savePin = (id) =>
+    {
+        if (alreadySaved?.length === 0)
+        {
             setSavingPost(true);
 
             client
                 .patch(id)
                 .setIfMissing({ save: [] })
-                .insert('after', 'save[-1]', [{
+                .insert('after', 'save[-1]', [
+                {
                     _key: uuidv4(),
                     userId: user?.googleId,
-                    postedBy: {
+                    postedBy:
+                    {
                         _type: 'postedBy',
                         _ref: user?.googleId,
                     },
@@ -58,9 +64,8 @@ const Pin = ({ pin }) => {
                 onMouseEnter={() => setPostHovered(true)}
                 onMouseLeave={() => setPostHovered(false)}
                 onClick={() => navigate(`/pin-detail/${_id}`)}
-                className=" relative cursor-zoom-in w-auto hover:shadow-lg rounded-lg overflow-hidden transition-all duration-500 ease-in-out"
-            >
-                <img className="rounded-lg w-full " src={(urlFor(image).width(250).url())} alt="user-post" />
+                className=" relative cursor-zoom-in w-auto hover:shadow-lg rounded-lg overflow-hidden transition-all duration-500 ease-in-out">
+                    <img className="rounded-lg w-full " src={(urlFor(image).width(250).url())} alt="user-post" />
                 {postHovered && (
                     <div
                         className="absolute top-0 w-full h-full flex flex-col justify-between p-1 pr-2 pt-2 pb-2 z-50"
